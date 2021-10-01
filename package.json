@@ -1,0 +1,28 @@
+{
+  "name": "blog-crud-restfull-api",
+  "version": "1.0.0",
+  "description": "repository for blog",
+  "main": "index.js",
+  "scripts": {
+    "start": "node ./bin/server.js",
+    "start:dev": "nodemon ./bin/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Anatoliy-Mostovoy/blog-crud-restfull-api.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Anatoliy-Mostovoy/blog-crud-restfull-api/issues"
+  },
+  "homepage": "https://github.com/Anatoliy-Mostovoy/blog-crud-restfull-api#readme",
+  "dependencies": {
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "morgan": "^1.10.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.13"
+  }
+}

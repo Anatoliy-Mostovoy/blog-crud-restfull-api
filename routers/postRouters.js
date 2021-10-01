@@ -19,7 +19,7 @@ let posts = [
   },
 ];
 
-router.get("/", (req, res) => {
+router.get("/", (_req, res) => {
   res.json({ posts });
 });
 

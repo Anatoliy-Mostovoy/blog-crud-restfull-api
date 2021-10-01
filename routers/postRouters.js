@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const Joi = require("joi");
 
 let posts = [
   {
@@ -19,7 +20,7 @@ let posts = [
   },
 ];
 
-router.get("/", (_req, res) => {
+router.get("/", (req, res) => {
   res.json({ posts });
 });
 
@@ -36,11 +37,30 @@ router.get("/:id", (req, res) => {
 
 router.post("/", (req, res) => {
   const { topic, text } = req.body;
+  const schema = Joi.object({
+    topic: Joi.string().alphanum().min(3).max(30).required(),
+    text: Joi.string().alphanum().min(10).max(200).required(),
+  });
+
+  const validationResult = schema.validate(req.body);
+  if (validationResult.error) {
+    return res.status(400).json({ status: validationResult.error.details });
+  }
+
   posts.push({ id: new Date().getTime().toString(), topic, text });
   res.json({ status: "success" });
 });
 
 router.put("/:id", (req, res) => {
+  const schema = Joi.object({
+    topic: Joi.string().alphanum().min(3).max(30).required(),
+    text: Joi.string().alphanum().min(10).max(200).required(),
+  });
+
+  const validationResult = schema.validate(req.body);
+  if (validationResult.error) {
+    return res.status(400).json({ status: validationResult.error.details });
+  }
   const { topic, text } = req.body;
   posts.forEach((post) => {
     if (post.id === req.params.id) {

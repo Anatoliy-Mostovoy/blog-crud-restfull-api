@@ -1,7 +1,7 @@
 const morgan = require("morgan");
 const express = require("express");
 const app = express();
-const { postsRouter } = require("./routers/postRouters.js");
+const { postsRouter } = require("./src/routers/postRouters.js");
 
 app.use(express.json()); // мидл вар для чтнения json автоматом парсит
 app.use(morgan("tiny"));

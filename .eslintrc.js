@@ -4,7 +4,7 @@ module.exports = {
     es2021: true,
     node: true,
   },
-  extends: ["google", "prettier"],
+  extends: ["google"],
   parserOptions: {
     ecmaVersion: 12,
   },

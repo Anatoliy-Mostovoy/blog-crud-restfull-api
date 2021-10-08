@@ -1,56 +1,39 @@
-let posts = [
-  {
-    id: "1",
-    topic: "test",
-    text: "test text",
-  },
-  {
-    id: "2",
-    topic: "test2",
-    text: "test2 text",
-  },
-  {
-    id: "3",
-    topic: "test3",
-    text: "test3 text",
-  },
-];
+const ObjectId = require('mongodb').ObjectId;
 
-const getPosts = (req, res) => {
-  res.json({ posts });
+const getPosts = async (req, res) => {
+  const posts = await req.db.Posts.find({}).toArray();
+  res.json({posts});
 };
 
-const getPostsById = (req, res) => {
-  const { id } = req.params;
-  const [post] = posts.filter((item) => item.id === id);
+const getPostsById = async (req, res) => {
+  const {id} = req.params;
+  const post = await req.db.Posts.findOne({_id: new ObjectId(id)});
   if (!post) {
     return res
-      .status(400)
-      .json({ status: `sorry, there are now post with id# ${id}` });
+        .status(400)
+        .json({status: `sorry, there are now post with id# ${id}`});
   }
-  res.json({ post });
+  res.json({post});
 };
 
-const postPosts = (req, res) => {
-  const { topic, text } = req.body;
-  posts.push({ id: new Date().getTime().toString(), topic, text });
-  res.json({ status: "success" });
+const postPosts = async (req, res) => {
+  const {topic, text} = req.body;
+  await req.db.Posts.insert({topic, text});
+  res.json({status: 'success'});
 };
 
-const putPosts = (req, res) => {
-  const { topic, text } = req.body;
-  posts.forEach((post) => {
-    if (post.id === req.params.id) {
-      post.text = text;
-      post.topic = topic;
-    }
-  });
-  res.json({ status: "success" });
+const putPosts = async (req, res) => {
+  const {topic, text} = req.body;
+  await req.db.Posts.updateOne(
+      {_id: new ObjectId(req.params.id)},
+      {$set: {topic, text}},
+  );
+  res.json({status: 'success'});
 };
 
-const deletePost = (req, res) => {
-  posts = posts.filter((item) => item.id !== req.params.id);
-  res.json({ status: "success" });
+const deletePost = async (req, res) => {
+  await req.db.Posts.deleteOne({_id: new ObjectId(req.params.id)});
+  res.json({status: 'success'});
 };
 
-module.exports = { getPosts, getPostsById, postPosts, putPosts, deletePost };
+module.exports = {getPosts, getPostsById, postPosts, putPosts, deletePost};

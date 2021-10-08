@@ -8,4 +8,8 @@ app.use(morgan("tiny"));
 
 app.use("/api/posts", postsRouter);
 
+app.use((err, req, res, next) => {
+  res.status(500).json({ message: err.message });
+});
+
 module.exports = app;
